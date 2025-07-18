@@ -46,7 +46,10 @@ export default function Sidebar() {
       <div className="flex-1" />
 
       {/* Logout */}
-      <div className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-yellow-400 hover:text-black transition">
+      <div
+        className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-yellow-400 hover:text-black transition cursor-pointer"
+        onClick={() => alert("Anda berhasil logout")}
+      >
         <LogOut size={20} />
       </div>
     </aside>

@@ -75,7 +75,7 @@ export default function OrderPanel() {
                       {item.name}
                       </h4>
                       <p className="text-xs text-gray-400">
-                      Rp. {item.price.toLocaleString()}
+                      Rp. {item.price.toLocaleString("id-ID")}
                       </p>
                     </div>
                     </div>
@@ -85,7 +85,7 @@ export default function OrderPanel() {
                       <span>{item.qty}</span>
                     </div>
                     <p className="text-sm font-semibold">
-                      Rp.{(item.price * item.qty).toLocaleString()}
+                      Rp.{(item.price * item.qty).toLocaleString("id-ID")}
                     </p>
                     <button className="text-yellow-400 hover:text-red-500">
                       🗑
@@ -147,20 +147,24 @@ export default function OrderPanel() {
             {/* Payment Methods */}
             <div className="mb-6">
               <div className="flex gap-3">
-                <button className="bg-yellow-400 text-black font-semibold px-4 py-2 rounded-md">
-                  Credit Card
+                <button className="bg-yellow-400 text-black font-semibold px-4 py-2 rounded-md flex items-center gap-2">
+                  <span>💳</span> Credit Card
                 </button>
-                <button className="border border-yellow-700 text-yellow-400 px-4 py-2 rounded-md">
-                  Paypal
+                <button className="border border-yellow-700 text-yellow-400 px-4 py-2 rounded-md flex items-center gap-2">
+                  <span>🅿️</span> Paypal
                 </button>
-                <button className="border border-yellow-700 text-yellow-400 px-4 py-2 rounded-md">
-                  Cash
+                <button className="border border-yellow-700 text-yellow-400 px-4 py-2 rounded-md flex items-center gap-2">
+                  <span>💵</span> Cash
                 </button>
               </div>
             </div>
 
             {/* Credit Card Form */}
-            <form className="space-y-4">
+            <form className="space-y-4"
+              onSubmit={e => {
+              e.preventDefault();
+              alert("Order success");
+              setShowPayment(false);}}>
               <div>
                 <label className="block text-sm mb-1">Cardholder Name</label>
                 <input
@@ -195,34 +199,46 @@ export default function OrderPanel() {
                   />
                 </div>
               </div>
-              <div>
-                <label className="block text-sm mb-1">Order Type</label>
-                <select
-                  className="w-full bg-[#2A273D] text-white px-3 py-2 rounded-md"
-                  value={orderType}
-                  onChange={e => setOrderType(e.target.value)}
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <label className="block text-sm mb-1">Order Type</label>
+                  <select
+                    className="w-full bg-[#2A273D] text-white px-3 py-2 rounded-md"
+                    value={orderType}
+                    onChange={e => setOrderType(e.target.value)}
+                  >
+                    <option>Dine In</option>
+                    <option>Take It</option>
+                    <option>Delivery</option>
+                  </select>
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm mb-1">Table Number</label>
+                  <input
+                    type="text"
+                    className="w-full bg-[#2A273D] text-white px-3 py-2 rounded-md"
+                    placeholder="Table No."
+                    value={tableNo}
+                    onChange={e => setTableNo(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3 mt-4">
+                <button
+                  type="button"
+                  className="bg-gray-600 text-white font-semibold w-1/2 py-3 rounded-full"
+                  onClick={() => setShowPayment(false)}
                 >
-                  <option>Dine In</option>
-                  <option>Take It</option>
-                  <option>Delivery</option>
-                </select>
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-yellow-400 text-black font-semibold w-1/2 py-3 rounded-full"
+                >
+                  Confirm Payment
+                </button>
               </div>
-              <div>
-                <label className="block text-sm mb-1">Table Number</label>
-                <input
-                  type="text"
-                  className="w-full bg-[#2A273D] text-white px-3 py-2 rounded-md"
-                  placeholder="Table No."
-                  value={tableNo}
-                  onChange={e => setTableNo(e.target.value)}
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-yellow-400 text-black font-semibold w-full py-3 rounded-full mt-4"
-              >
-                Pay Now
-              </button>
             </form>
           </div>
         </aside>

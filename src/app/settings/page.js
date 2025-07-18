@@ -104,7 +104,7 @@ export default function SettingsPage() {
                     {dish.name}
                   </h3>
                   <p className="text-sm text-gray-400 mt-1">
-                    Rp.{dish.price.toLocaleString()} • {dish.stock} Bowls
+                    Rp.{dish.price.toLocaleString("id-ID")} • {dish.stock} Bowls
                   </p>
                 </div>
                 <div className="bg-yellow-400 text-black text-sm text-center py-2 cursor-pointer flex items-center justify-center gap-2">
@@ -148,29 +148,33 @@ export default function SettingsPage() {
             </div>
 
             <form onSubmit={handleAddDish} className="flex flex-col gap-3">
+              Product Name
               <input
                 className="bg-[#393C49] px-3 py-2 rounded text-sm"
-                placeholder="Product Name"
+                placeholder="Click here"
                 value={newDish.name}
                 onChange={(e) => setNewDish({ ...newDish, name: e.target.value })}
               />
+              Price
               <input
                 className="bg-[#393C49] px-3 py-2 rounded text-sm"
-                placeholder="Price"
+                placeholder="Click here"
                 type="number"
                 value={newDish.price}
                 onChange={(e) => setNewDish({ ...newDish, price: e.target.value })}
               />
+              Stock
               <input
                 className="bg-[#393C49] px-3 py-2 rounded text-sm"
-                placeholder="Stock"
+                placeholder="Click here"
                 type="number"
                 value={newDish.stock}
                 onChange={(e) => setNewDish({ ...newDish, stock: e.target.value })}
               />
+              Item
               <input
                 className="bg-[#393C49] px-3 py-2 rounded text-sm"
-                placeholder="Image URL (optional)"
+                placeholder="Click here"
                 value={newDish.image}
                 onChange={(e) => setNewDish({ ...newDish, image: e.target.value })}
               />
