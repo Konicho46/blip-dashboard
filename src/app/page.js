@@ -59,6 +59,8 @@ export default function Home() {
     },
   ];
 
+  const [orderItems, setOrderItems] = useState([]);
+
   const [selectedCategory, setSelectedCategory] = useState("hot");
 
   // const filteredItems = categorizedFoodItems.filter(
@@ -73,6 +75,50 @@ export default function Home() {
       item.category === selectedCategory &&
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // fungsi untuk menghandle add item ke cart
+  const handleAddItemToOrder = (foodItem) => {
+    setOrderItems((prevItems) => {
+      const existingItem = prevItems.find(
+        (item) => item.name === foodItem.name
+      );
+      if (existingItem) {
+        // kalau udah ada tambah quantity
+        return prevItems.map((item) =>
+          item.name === foodItem.name ? { ...item, qty: item.qty + 1 } : item
+        );
+      }
+      // kalau belum ada tambah item baru
+      return [...prevItems, { ...foodItem, qty: 1, note: "" }];
+    });
+  };
+
+  // fungsi untuk menghandle update item di cart
+  const handleUpdateQuantity = (itemName, newQty) => {
+    if (newQty <= 0) {
+      handleRemoveItem(itemName);
+    } else {
+      setOrderItems((prevItems) =>
+        prevItems.map((item) =>
+          item.name === itemName ? { ...item, qty: newQty } : item
+        )
+      );
+    }
+  };
+
+  const handleRemoveItem = (itemName) => {
+    setOrderItems((prevItems) =>
+      prevItems.filter((item) => item.name !== itemName)
+    );
+  };
+
+  const handleUpdateNote = (itemName, note) => {
+    setOrderItems((prevItems) =>
+      prevItems.map((item) =>
+        item.name === itemName ? { ...item, note: note } : item
+      )
+    );
+  };
 
   return (
     <main className="flex h-screen overflow-hidden">
@@ -115,8 +161,18 @@ export default function Home() {
           {/* Order Type Dropdown Card */}
           <div className="p-0 min-w-[220px] flex flex-col items-start border-0 shadow-none bg-transparent">
             <div className="flex items-center gap-2 mb-2">
-              <svg className="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10m-9 4h6m-7 4h8m-5-8v8m4-8v8" />
+              <svg
+                className="w-5 h-5 text-yellow-400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8 7V3m8 4V3m-9 8h10m-9 4h6m-7 4h8m-5-8v8m4-8v8"
+                />
               </svg>
               <span className="text-white font-semibold">Order Type</span>
             </div>
@@ -142,12 +198,18 @@ export default function Home() {
               price={item.price}
               stock={item.stock}
               image={item.image}
+              onAddItem={() => handleAddItemToOrder(item)}
             />
           ))}
         </div>
       </div>
 
-      <OrderPanel />
+      <OrderPanel
+        orderItems={orderItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+        onUpdateNote={handleUpdateNote}
+      />
     </main>
   );
 }

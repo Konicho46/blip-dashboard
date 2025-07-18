@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function FoodCard({ name, price, stock, image }) {
+export default function FoodCard({ name, price, stock, image, onAddItem }) {
   const [formattedPrice, setFormattedPrice] = useState(price);
 
   useEffect(() => {
@@ -8,7 +8,10 @@ export default function FoodCard({ name, price, stock, image }) {
   }, [price]);
 
   return (
-    <div className="bg-[#1e1e2e] p-4 rounded-2xl text-white text-center hover:scale-105 transition-all duration-200">
+    <button
+      onClick={onAddItem}
+      className="bg-[#1e1e2e] p-4 rounded-2xl text-white text-center hover:scale-105 transition-all duration-200"
+    >
       <img
         src={image}
         alt={name}
@@ -22,6 +25,6 @@ export default function FoodCard({ name, price, stock, image }) {
       </p>
 
       <p className="text-gray-400 text-xs">{stock} Bowls available</p>
-    </div>
+    </button>
   );
 }
